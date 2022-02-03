@@ -16,11 +16,9 @@ class Player {
   }
 
   /***** Getters *****/
-  // Obter o simbolo de um Player
   public char getSymbol() {
     return symbol;
   }
-  // Obter o nome de um Player
   public String getName() {
     return name;
   }

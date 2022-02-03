@@ -70,7 +70,7 @@ class Connect4 {
   }
 
   // Criação dos players
-  public static void createPlayers(int symbol, Player player1_name, Player player2_name, int n) {
+  public static void createPlayers(int symbol, String player1_name, String player2_name, int n) {
     if (n == 1) {
       if (symbol == 1) {
         player2 = new Player('X', player2_name);
@@ -176,7 +176,7 @@ class Connect4 {
     else if(game_board.checkGame() == -1) {
       System.out.println("The winner is " + game_board.getPlayer(2).getName());
     }
-    else if(game_board.checkGame == 2) {
+    else if(game_board.checkGame() == 2) {
       System.out.println("It's a draw");
     }
   }
@@ -184,6 +184,7 @@ class Connect4 {
   public static void HumanAgainstComputer(Scanner input) {
     String player2_name = "Human";
     String player1_name = "Computer";
+    TypesOfSearch search = new TypesOfSearch();
 
     // Escolha do simbolo
     System.out.println();
@@ -247,15 +248,15 @@ class Connect4 {
 
         // MiniMax
         if(algorithm == 1) {
-          move = TypesOfSearch.minimax(depth, game_board);
+          move = search.minimax(depth, game_board);
         }
         // Alpha-Beta
         else if(algorithm == 2) {
-          move = TypesOfSearch.alpha_beta(depth, game_board);
+          move = search.alpha_beta(depth, game_board);
         }
         // Monte Carlo Tree Search
         else {
-          move = TypesOfSearch.monte_carlo_tree_search(depth, game_board, currentPlayer);
+          move = search.monte_carlo_tree_search(depth, game_board, currentPlayer);
         }
 
         game_board.makeMove(move, currentPlayer);

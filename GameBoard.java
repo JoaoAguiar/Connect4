@@ -9,6 +9,7 @@ class GameBoard {
   public Player player1;
   public Player player2;
   public LinkedList<GameBoard> children;
+  public GameBoard board_father;
 
   /***** Criação do tabuleiro *****/
   // Tabuleiro só com o caracter 'character'
@@ -47,7 +48,7 @@ class GameBoard {
   }
 
   // "Avaliação" do tabuleiro
-  public int setGameScore(int gameScore) {
+  public void setGameScore(int gameScore) {
     this.gameScore = gameScore;
   }
 
@@ -116,8 +117,8 @@ class GameBoard {
 
   // Faz o move de um certo player
   public void makeMove(int move, int currentPlayer) {
-    for (int i = 0; i < 6; i++) {
-      if (board[i][move - 1] != '_') {
+    for(int i = 0; i < 6; i++) {
+      if(board[i][move - 1] != '_') {
         board[i][move - 1] = getPlayer(currentPlayer).getSymbol();
         setPreviousMove(move);
       }
@@ -128,7 +129,7 @@ class GameBoard {
   }
 
   // Calcula a "avaliação" do tabuleiro
-  public static int score(int currentPlayer) {
+  public int score(int currentPlayer) {
     int score = checkHorizontal() + checkVertical() + checkDiagonal1() + checkDiagonal2();
   
     if(currentPlayer == 1) {
@@ -199,11 +200,7 @@ class GameBoard {
 
         new_board.setPlayers(getPlayer(1),getPlayer(2));
         new_board.makeMove(move, currentPlayer);
-        new_board.setPreviousBoard(previous_board);
-        
-        // Usado apenas pelo algoritmo Monte Carlo Tree Search 
-        new_board.setVisits(1);
-        new_board.setChoices(1);
+        board_father = previous_board;
 
         children.add(new_board);
       }
@@ -225,8 +222,9 @@ class GameBoard {
       }
     }
     for(int action : possibleActions) {
-      Node children = new Node(board.makeMove(i, currentPlayer));
-      newChildrens.add();
+      board.makeMove(action, currentPlayer);
+      Node children = new Node(board);
+      newChildrens.add(children);
     }
 
     return newChildrens;
@@ -234,16 +232,12 @@ class GameBoard {
 
   // Faz uma copia exata do tabuleiro
   public void copyBoard(GameBoard target, GameBoard board) {
-    target = new GameBoard(board);
+    GameBoard new_board = new GameBoard(board.board);
+    target = new_board;
 
     target.setPlayers(getPlayer(1), getPlayer(2));
     target.setPreviousMove(getPreviousMove());
     target.setGameScore(getGameScore());
-
-    // Usado apenas pelo algoritmo Monte Carlo Tree Search
-    target.setValue(getValue());
-    target.setChoices(getChoices());
-    target.setVisits(getVisits());
   }
 
   // Vai verificar se há algum acontecimento no jogo

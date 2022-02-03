@@ -8,24 +8,23 @@ public class Node {
     public Node(GameBoard board) {
         this.board = board;
     }
+    public Node() {
+        this.board = null;
+    }
 
     /***** Getters *****/
-    // "Filhos" do nó
     public List<Node> getChildrens() {
         return childrens;
     }
-    // Tabuleiro a que se refere o nó
     public GameBoard getGameBoard() {
         return board;
     }
 
     /***** Setters *****/
-    // Tabuleiro a que se refere o nó
-    public setGameBoard(GameBoard board) {
+    public void setGameBoard(GameBoard board) {
         this.board = board;
     }
 
-    // Verifica se o nó é folha
     public Boolean isLeaf() {
         return childrens.isEmpty();
     }
