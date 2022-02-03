@@ -6,3 +6,8 @@
 * MiniMax
 * Alpha-Beta
 * Monte Carlo Tree Search.
+
+```
+javac Connect4.java
+java Connect4
+```
